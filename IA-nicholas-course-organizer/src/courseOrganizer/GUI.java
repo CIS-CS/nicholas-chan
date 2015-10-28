@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 package courseOrganizer;
-
 import java.awt.Toolkit;
 import java.io.File;
 import java.util.ArrayList;

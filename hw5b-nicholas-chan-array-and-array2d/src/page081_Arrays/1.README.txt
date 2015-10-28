@@ -1,0 +1,80 @@
+Arrays are objects.
+Arrays can store primitives or objects.
+Each element in the array must be of the same type.
+Array indices always begin at zero.
+
+Five things to do to set up an array:
+1. specify a name.
+2. specify the type.
+3. create the array object.
+4. set the dimension.
+5. initialize the elements (contents)
+
+FindSmallest.java
+    This class contains a main() method so you can run it as a Java application.
+    The application uses a for loop to find the smallest value in an array of
+    integers.
+    Exercises:
+    1. Change the values in the array to test the application.
+    2. Make it return the largest value.
+    3. Replace the while loop with a for loop.
+    4. Create a new class called FindMinMax.
+       array data should be defined as a field, ie, outside main.
+       add two methods, findMin() and findMax()
+
+NamesArray.java
+    This class contains a main() method so you can run it as a Java application.
+    The application prompts the user for five names (Strings).
+    It stores the names in an array of Strings, and then displays the 3rd
+    and 5th name from the array.
+    Exercises:
+    1. Increase the size of the array and prompt the user for more
+       names; display all the names; display the first and last name.
+    2. Prompt the user for the number of names they want to enter.
+       Create the array object (at runtime) to hold the names.
+       Prompt user to enter the specified number of names.
+       Display all the names.
+
+Array2D.java
+    Shows how to initialize a 2D array using a nested for loop.
+    Exercises:
+    1. Initialize the 2D array with values 1-50.
+    2. Display the values in reverse order.
+
+PassMark.java
+    Uses two 1D arrays, one for students, one for scores.
+    Removes students that do not have a passing grade.
+
+-------------------------------------------------------------------
+
+These two classes are from the Java Tutorial on arrays.
+Java Tutorial > Learning the Java Language > Language Basics > Variables > Arrays
+
+ArrayDemo.java
+    Creates a variable of type int[].
+    Creates an array object.
+    Stores values in the array.
+    Displays the contents of the array.
+
+MultiDimArrayDemo.java
+    A 2D array is an array of arrays.
+    Note how the 2D array object is created and initialized in a single
+    statement.
+    To access an element, you need to include both indexes, names[][].
+    Using a single index will reference a single row of the array.
+    Although you cannot change the size of 1D array, you can change the 
+    dimensions of a 2D array.
+
+    Exercises:
+    1. Add another "row" to the "names" array for title, eq, PhD. MD, DDS, MsCS.
+       Display some names with title.
+
+    2. Study the code carefully.
+       What is the shape of the int[][] array after Loop 1?
+       Change the dimensions of 2D array so it is an "upside-down staircase."
+
+    3. Initialize the 2D array to 1 through n.
+       Display the contents of the 2D array in reverse order.
+
+
+

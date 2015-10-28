@@ -1,0 +1,14 @@
+#BlueJ class context
+comment0.params=args
+comment0.target=void\ main(java.lang.String[])
+comment0.text=\n\ Creates\ the\ music\ organizer,\ adds\ the\ specified\ number\ of\ songs,\ and\ then\ prints\ all\ songs.\n
+comment1.params=numberOfSongs
+comment1.target=void\ addSongs(int)
+comment1.text=\n\ PART\ OF\ EXERCISE\ 4A\n\ -Adds\ the\ number\ of\ songs.\ \n\ \n\ @param\ numberOfSongs\ The\ number\ of\ songs\ to\ be\ added\ to\ the\ music\ organizer\n
+comment2.params=search
+comment2.target=void\ test(java.lang.String)
+comment2.text=\n\ PART\ OF\ EXERCISE\ 4B\n\ -Add\ 200\ songs\ to\ the\ organizer\n\ -Searches\ for\ songs\ matching\ the\ search\ term\n\ \n\ @param\ search\ The\ string\ to\ search\ for.\ \n
+comment3.params=
+comment3.target=void\ printFiles()
+comment3.text=\n\ Prints\ all\ files\ in\ the\ organizer.\ \n
+numComments=4

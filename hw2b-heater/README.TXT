@@ -1,0 +1,4 @@
+PROJECT TITLE: Heater
+PURPOSE OF PROJECT: Exercise
+VERSION: 1
+AUTHORS: Nicholas Chan

@@ -1,0 +1,43 @@
+Class documentation
+<---- javadoc command: ---->
+C:\PROGRA~1\Java\JDK18~1.0_2\bin\javadoc.exe
+-author
+-version
+-nodeprecated
+-package
+-noindex
+-notree
+-nohelp
+-nonavbar
+-source
+1.8
+-classpath
+C:\Program Files\BlueJ\lib\bluejcore.jar;C:\Program Files\BlueJ\lib\junit-4.8.2.jar;C:\Program Files\BlueJ\lib\userlib\pi4j-core.jar;C:\Program Files\BlueJ\lib\userlib\pi4j-device.jar;C:\Program Files\BlueJ\lib\userlib\pi4j-gpio-extension.jar;C:\Program Files\BlueJ\lib\userlib\pi4j-service.jar;C:\Users\Nicholas\Dropbox\nicholas-chan-y12\hw2b-heater
+-d
+C:\Users\Nicholas\Dropbox\nicholas-chan-y12\hw2b-heater\doc
+-encoding
+UTF-8
+-charset
+UTF-8
+-docletpath
+C:\Program Files\BlueJ\lib\bjdoclet.jar
+-doclet
+bluej.doclet.doclets.formats.html.HtmlDoclet
+C:\Users\Nicholas\Dropbox\nicholas-chan-y12\hw2b-heater\Heater.java
+<---- end of javadoc command ---->
+Loading source file C:\Users\Nicholas\Dropbox\nicholas-chan-y12\hw2b-heater\Heater.java...
+Constructing Javadoc information...
+Standard Doclet version 1.8.0_25
+Building tree for all the packages and classes...
+Generating C:\Users\Nicholas\Dropbox\nicholas-chan-y12\hw2b-heater\doc\Heater.html...
+C:\Users\Nicholas\Dropbox\nicholas-chan-y12\hw2b-heater\Heater.java:21: warning - @param argument "mina" is not a parameter name.
+Generating C:\Users\Nicholas\Dropbox\nicholas-chan-y12\hw2b-heater\doc\package-frame.html...
+Generating C:\Users\Nicholas\Dropbox\nicholas-chan-y12\hw2b-heater\doc\package-summary.html...
+Generating C:\Users\Nicholas\Dropbox\nicholas-chan-y12\hw2b-heater\doc\constant-values.html...
+Building index for all the packages and classes...
+Building index for all classes...
+Generating C:\Users\Nicholas\Dropbox\nicholas-chan-y12\hw2b-heater\doc\allclasses-frame.html...
+Generating C:\Users\Nicholas\Dropbox\nicholas-chan-y12\hw2b-heater\doc\allclasses-noframe.html...
+Generating C:\Users\Nicholas\Dropbox\nicholas-chan-y12\hw2b-heater\doc\index.html...
+Generating C:\Users\Nicholas\Dropbox\nicholas-chan-y12\hw2b-heater\doc\stylesheet.css...
+1 warning

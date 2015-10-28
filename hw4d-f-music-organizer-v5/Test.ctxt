@@ -1,0 +1,11 @@
+#BlueJ class context
+comment0.params=args
+comment0.target=void\ main(java.lang.String[])
+comment1.params=numberOfSongs
+comment1.target=void\ addSongs(int)
+comment1.text=\n\ Adds\ the\ specified\ number\ of\ songs\ to\ the\ organizer\n
+comment2.params=
+comment2.target=void\ printFiles()
+comment3.params=
+comment3.target=void\ playRandomSongs()
+numComments=4

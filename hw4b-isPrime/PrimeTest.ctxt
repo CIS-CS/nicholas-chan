@@ -1,0 +1,16 @@
+#BlueJ class context
+comment0.params=
+comment0.target=PrimeTest()
+comment1.params=number
+comment1.target=boolean\ isPrime(int)
+comment1.text=\r\n\ Checks\ if\ a\ number\ is\ prime\r\n\ @param\ number\ The\ number\ to\ test\r\n\ @return\ isPrime\ \ A\ boolean\ showing\ if\ the\ number\ is\ prime.\r\n
+comment2.params=number
+comment2.target=void\ showPrimesBeforeArray(int)
+comment2.text=\r\n\ Returns\ the\ prime\ numbers\ before\ the\ input\ number\ to\ be\ tested\r\n\ while\ being\ stored\ in\ an\ array\r\n\ \r\n\ NOTE\:\ METHOD\ NOT\ REQUIRED\ IN\ EXERCISE\ 4,\ ONLY\ FOR\ EXPERIMENTATION\r\n\ \r\n\ @param\ number\ \ \ \ The\ number\ to\ be\ tested\r\n
+comment3.params=number
+comment3.target=void\ showPrimesBeforeArrayList(int)
+comment3.text=\r\n\ Returns\ the\ prime\ numbers\ before\ the\ input\ number\ to\ be\ tested\r\n\ while\ being\ stored\ in\ an\ arrayList\r\n\ \r\n\ NOTE\:\ METHOD\ NOT\ REQUIRED\ IN\ EXERCISE\ 4,\ ONLY\ FOR\ EXPERIMENTATION\r\n\ \r\n\ @param\ number\ \ \ \ The\ number\ to\ be\ tested\r\n
+comment4.params=number
+comment4.target=void\ showPrimesBefore(int)
+comment4.text=\r\n\ Returns\ the\ prime\ numbers\ before\ the\ input\ number\ with\ \r\n\ terminal\ results\r\n\ @param\ number\ \ \ \ The\ number\ to\ be\ tested\r\n
+numComments=5

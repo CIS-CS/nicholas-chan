@@ -1,0 +1,17 @@
+#BlueJ class context
+comment0.params=min\ max
+comment0.target=Heater(int,\ int)
+comment0.text=\r\n\ Constructor\ for\ objects\ of\ class\ Heater\r\n\ \r\n\ @param\ min\ The\ minimum\ temperature\ that\ the\ heater\ will\ go\ to\r\n\ @param\ max\ The\ maximum\ temperature\ that\ the\ heater\ will\ go\ to\r\n
+comment1.params=
+comment1.target=void\ warmer()
+comment1.text=\r\n\ Increase\ the\ temperature\ by\ 5\ degrees\r\n
+comment2.params=
+comment2.target=void\ cooler()
+comment2.text=\r\n\ Decrease\ the\ temperature\ by\ 5\ degrees\r\n
+comment3.params=
+comment3.target=int\ returnTemperature()
+comment3.text=\r\n\ Returns\ the\ value\ of\ the\ temperature\r\n\ \r\n\ @return\ temperature\ The\ current\ temperature\ of\ the\ system\r\n
+comment4.params=increment
+comment4.target=void\ setIncrement(int)
+comment4.text=\r\n\ Sets\ the\ increment\ value\ for\ the\ heater\r\n\ \r\n\ @param\ increment\ The\ new\ amount\ to\ increment\ by\r\n
+numComments=5
