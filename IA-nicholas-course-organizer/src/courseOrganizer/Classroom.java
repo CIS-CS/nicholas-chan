@@ -281,7 +281,6 @@ public class Classroom {
             {
                 out = out.concat(teacherID.getID() + "~");
             }
-            out = out.concat(del);
         }
         else
         {
