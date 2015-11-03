@@ -51,12 +51,17 @@ public class GUI extends javax.swing.JFrame {
         initComponents();
    
         setVisible(true);
+        
+        initTables();
+    }
+
+    private void initTables()
+    {
         initStudentTable();
         initTeacherTable();
         initComputerTable();
-        initClassesTable();
+        initClassesTable();        
     }
-
     private int getStudentTableSelected()
     {
         return studentTable.getSelectedRow();
@@ -1331,7 +1336,7 @@ public class GUI extends javax.swing.JFrame {
                 addStudentButtonActionPerformed(evt);
             }
         });
-        studentPanel.add(addStudentButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(527, 90, 165, -1));
+        studentPanel.add(addStudentButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 100, 165, -1));
 
         removeStudentButton.setText("Remove Student");
         removeStudentButton.addActionListener(new java.awt.event.ActionListener() {
@@ -1339,7 +1344,7 @@ public class GUI extends javax.swing.JFrame {
                 removeStudentButtonActionPerformed(evt);
             }
         });
-        studentPanel.add(removeStudentButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(527, 128, 165, -1));
+        studentPanel.add(removeStudentButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 130, 165, -1));
 
         viewDetailsButtonStudent.setText("View Details");
         viewDetailsButtonStudent.addActionListener(new java.awt.event.ActionListener() {
@@ -1347,15 +1352,16 @@ public class GUI extends javax.swing.JFrame {
                 viewDetailsButtonStudentActionPerformed(evt);
             }
         });
-        studentPanel.add(viewDetailsButtonStudent, new org.netbeans.lib.awtextra.AbsoluteConstraints(527, 204, 165, -1));
+        studentPanel.add(viewDetailsButtonStudent, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 190, 165, -1));
 
         editStudentButton.setText("Edit Student Name");
+        editStudentButton.setPreferredSize(new java.awt.Dimension(127, 25));
         editStudentButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 editStudentButtonActionPerformed(evt);
             }
         });
-        studentPanel.add(editStudentButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(527, 166, -1, -1));
+        studentPanel.add(editStudentButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 160, 165, -1));
 
         tabbedPane.addTab("Students", studentPanel);
 
@@ -1448,13 +1454,12 @@ public class GUI extends javax.swing.JFrame {
                 .addGroup(teacherPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(teacherSearchField)
                     .addGroup(teacherPanelLayout.createSequentialGroup()
-                        .addGroup(teacherPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(teacherPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(removeTeacherButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(editTeacherButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(addTeacherButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(teacherSearchButton))
-                            .addComponent(viewDetailsButtonTeacher, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(teacherPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(teacherSearchButton)
+                            .addComponent(viewDetailsButtonTeacher, javax.swing.GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE)
+                            .addComponent(editTeacherButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(removeTeacherButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(addTeacherButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(0, 92, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -2501,6 +2506,7 @@ public class GUI extends javax.swing.JFrame {
         if(reply == optionPane.YES_OPTION)
         {
             org.clear();
+            initTables();
         }    
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
