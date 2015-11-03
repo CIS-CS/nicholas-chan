@@ -8,7 +8,9 @@ import java.awt.Toolkit;
 import java.io.File;
 import java.util.ArrayList;
 import javax.swing.DefaultListModel;
+import javax.swing.JFrame;
 import javax.swing.RowFilter;
+import javax.swing.WindowConstants;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
@@ -1272,7 +1274,16 @@ public class GUI extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
+        setTitle("Reboot Class Organizer");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         studentPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -1456,7 +1467,7 @@ public class GUI extends javax.swing.JFrame {
                     .addGroup(teacherPanelLayout.createSequentialGroup()
                         .addGroup(teacherPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(teacherSearchButton)
-                            .addComponent(viewDetailsButtonTeacher, javax.swing.GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE)
+                            .addComponent(viewDetailsButtonTeacher, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(editTeacherButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(removeTeacherButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(addTeacherButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -2510,7 +2521,24 @@ public class GUI extends javax.swing.JFrame {
         }    
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
-    
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+    }//GEN-LAST:event_formWindowClosed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        if ( optionPane.showConfirmDialog(new JFrame(), 
+           "Are you sure you want to close?", 
+           "Exitting Window", optionPane.YES_NO_OPTION) == optionPane.YES_OPTION) { 
+
+              System.out.println("Should Exit: " + WindowConstants.DISPOSE_ON_CLOSE); 
+              System.exit(WindowConstants.DISPOSE_ON_CLOSE); 
+          } 
+          else { 
+
+              System.out.println("Should not Exit: " + WindowConstants.DISPOSE_ON_CLOSE); 
+              return; 
+          }
+    }//GEN-LAST:event_formWindowClosing
+   
     /**
      * @param args the command line arguments
      */

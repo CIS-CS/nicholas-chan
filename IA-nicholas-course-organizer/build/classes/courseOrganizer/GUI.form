@@ -1159,13 +1159,18 @@
     </Menu>
   </NonVisualComponents>
   <Properties>
-    <Property name="defaultCloseOperation" type="int" value="3"/>
+    <Property name="defaultCloseOperation" type="int" value="0"/>
+    <Property name="title" type="java.lang.String" value="Reboot Class Organizer"/>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="menuBar" type="java.lang.String" value="menuBar"/>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
     <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
   </SyntheticProperties>
+  <Events>
+    <EventHandler event="windowClosed" listener="java.awt.event.WindowListener" parameters="java.awt.event.WindowEvent" handler="formWindowClosed"/>
+    <EventHandler event="windowClosing" listener="java.awt.event.WindowListener" parameters="java.awt.event.WindowEvent" handler="formWindowClosing"/>
+  </Events>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
@@ -1365,7 +1370,7 @@
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                   <Component id="teacherSearchButton" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="viewDetailsButtonTeacher" pref="167" max="32767" attributes="0"/>
+                                  <Component id="viewDetailsButtonTeacher" max="32767" attributes="0"/>
                                   <Component id="editTeacherButton" alignment="0" max="32767" attributes="0"/>
                                   <Component id="removeTeacherButton" alignment="0" max="32767" attributes="0"/>
                                   <Component id="addTeacherButton" alignment="0" max="32767" attributes="0"/>
