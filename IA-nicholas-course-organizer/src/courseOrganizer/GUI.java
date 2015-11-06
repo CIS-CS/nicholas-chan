@@ -20,19 +20,19 @@ import javax.swing.table.TableRowSorter;
  */
 public class GUI extends javax.swing.JFrame {
     //Organizer and persistor declarations
-    Organizer org;
-    Persistor persist;
+    Organizer org;      //Declaration for a new organizer
+    Persistor persist;  //Declaration for a new persistor
     
     //Table model and sorter declarations
-    DefaultTableModel studentTableModel; 
-    DefaultTableModel teacherTableModel;
-    DefaultTableModel computerTableModel;
-    DefaultTableModel classesTableModel;
-    DefaultTableModel classStudentModel;
-    DefaultTableModel classTeacherModel;
-    DefaultTableModel classComputerModel;
+    DefaultTableModel studentTableModel;    //Table model for the student tab
+    DefaultTableModel teacherTableModel;    //Table model for the teacher tab
+    DefaultTableModel computerTableModel;   //Table model for the computer tab
+    DefaultTableModel classesTableModel;    //Table model for theh classes tab
+    DefaultTableModel classStudentModel;    //Table model for students in each class
+    DefaultTableModel classTeacherModel;    //Table model for teachers in each class
+    DefaultTableModel classComputerModel;   //Table model for computers in each class
 
-    TableRowSorter<DefaultTableModel> studentSorter;
+    TableRowSorter<DefaultTableModel> studentSorter;        //Table sorter declarations
     TableRowSorter<DefaultTableModel> teacherSorter;
     TableRowSorter<DefaultTableModel> computerSorter;
     TableRowSorter<DefaultTableModel> classesSorter;
@@ -45,25 +45,32 @@ public class GUI extends javax.swing.JFrame {
      * Creates new form GUI, creates an organizer and persistor, and initializes all tables
      */
     public GUI() {
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icon.png")));
-        org = new Organizer();
-        persist = new Persistor(org);
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass()
+                .getResource("/icon.png")));    //Sets the application icon
         
-        main(null);
-        initComponents();
+        org = new Organizer();          //Creates a new organizer
+        persist = new Persistor(org);   //Creates a new persistor
+        
+        main(null);         //Calls main
+        initComponents();   //Initializes Swing components
    
-        setVisible(true);
+        setVisible(true);   //Makes swing components visible
         
-        initTables();
+        initTables();       //Initializes all tables in all panes
     }
 
     private void initTables()
     {
-        initStudentTable();
-        initTeacherTable();
-        initComputerTable();
-        initClassesTable();        
+        initStudentTable(); //Initializes the student table
+        initTeacherTable(); //Initializes the teacher table
+        initComputerTable();//Initializes the computer table
+        initClassesTable(); //Initializes all tables in the classes pane
     }
+    
+    /*
+     * Methods below return the selected row in a table. 
+     */
+    
     private int getStudentTableSelected()
     {
         return studentTable.getSelectedRow();
@@ -84,11 +91,14 @@ public class GUI extends javax.swing.JFrame {
         return classesTable.getSelectedRow();
     }
     
+    /*
+        Return type of int[] is necessary for returning multiple selected rows
+    */
     private int[] getClassStudentTableSelected()
     {
         if(classStudentTable.getSelectedRow() == -1)
         {
-            return new int[] {-1};
+            return new int[] {-1}; //Data validation: If no rows selected, return -1
         }
         else
         {
@@ -120,6 +130,9 @@ public class GUI extends javax.swing.JFrame {
         }
     }
     
+    /*
+        Methods below initialize each table, including row sorters. 
+    */
     private void initTeacherTable()
     {
         teacherTableModel = (DefaultTableModel) teacherTable.getModel();
@@ -191,6 +204,10 @@ public class GUI extends javax.swing.JFrame {
         classComputerTable.setRowSorter(classComputerSorter);
     }
     
+    /*
+    Methods below add an entity to the row of a table
+    */
+    
     private void addStudentRow(Student student)
     {
         studentTableModel.addRow(new String[]{student.getID(), student.getName(), student.getClasses()});
@@ -198,8 +215,7 @@ public class GUI extends javax.swing.JFrame {
     
     private void addTeacherRow(Teacher teacher)
     {
-        teacherTableModel.addRow(new String[]{teacher.getID(), teacher.getName(), teacher.getClasses()});
-        
+        teacherTableModel.addRow(new String[]{teacher.getID(), teacher.getName(), teacher.getClasses()});    
     }
     
     private void addComputerRow(Computer computer)
@@ -308,7 +324,10 @@ public class GUI extends javax.swing.JFrame {
         
         classComputerModel.addRow(new String[]{id, name, enrollStatus});
     }
-        
+    
+    /*
+    Methods below remove a entity from a table given a row number
+    */
     private void removeStudent(int rowNum)
     { 
        if(rowNum != -1)
@@ -351,6 +370,10 @@ public class GUI extends javax.swing.JFrame {
             classesTableModel.removeRow(rowNum);
         }
     }
+    
+    /*
+    Methods below load tables with data from the arraylist of entities.
+    */
     
     private void loadStudentTable()
     {
@@ -1276,6 +1299,7 @@ public class GUI extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Reboot Class Organizer");
+        setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosed(java.awt.event.WindowEvent evt) {
                 formWindowClosed(evt);
