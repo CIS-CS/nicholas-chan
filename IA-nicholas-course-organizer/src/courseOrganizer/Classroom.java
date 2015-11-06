@@ -8,7 +8,7 @@ package courseOrganizer;
 import java.util.ArrayList;
 
 /**
- * Classroom class representing a group of students, teachers, and computers
+ *
  * @author Nicholas
  */
 public class Classroom {
@@ -27,12 +27,11 @@ public class Classroom {
      */
     public Classroom(String inName, String inID)
     {
-        name = inName;  //Name of the classroom
-        id = inID;      //ID of the classroom 
-        
-        students = new ArrayList<Student>();    //Arraylist of all students
-        teachers = new ArrayList<Teacher>();    //Arraylist of all teachers
-        computers = new ArrayList<Computer>();  //Arraylist of all computers
+        name = inName;
+        id = inID;
+        students = new ArrayList<Student>();
+        teachers = new ArrayList<Teacher>();
+        computers = new ArrayList<Computer>();
     }
     
     /**
@@ -41,7 +40,7 @@ public class Classroom {
      */
     public String getName()
     {
-        return name; 
+        return name;
     }
     
     /**
