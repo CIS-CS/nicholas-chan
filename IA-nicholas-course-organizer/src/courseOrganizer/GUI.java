@@ -11,6 +11,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.RowFilter;
 import javax.swing.WindowConstants;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
@@ -40,14 +41,18 @@ public class GUI extends javax.swing.JFrame {
     TableRowSorter<DefaultTableModel> classTeacherSorter;
     TableRowSorter<DefaultTableModel> classComputerSorter;
 
+    File originFile = null; 
     
     /**
      * Creates new form GUI, creates an organizer and persistor, and initializes all tables
+     * 
+     * @param org The input organizer
+     * @param persist The input persistor
      */
-    public GUI() {
+    public GUI(Organizer org, Persistor persistor) {
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icon.png")));
-        org = new Organizer();
-        persist = new Persistor(org);
+        this.org = org;
+        this.persist = persistor;
         
         main(null);
         initComponents();
@@ -136,7 +141,7 @@ public class GUI extends javax.swing.JFrame {
         computerTable.setAutoCreateRowSorter(true);
         computerTableModel.setRowCount(0);
         loadComputerTable();
-        computerSorter = new TableRowSorter<DefaultTableModel>(computerTableModel);
+        computerSorter = new TableRowSorter<>(computerTableModel);
         computerTable.setRowSorter(computerSorter);
     }
     
@@ -146,7 +151,7 @@ public class GUI extends javax.swing.JFrame {
         studentTable.setAutoCreateRowSorter(true);
         studentTableModel.setRowCount(0);
         loadStudentTable(); 
-        studentSorter = new TableRowSorter<DefaultTableModel>(studentTableModel);
+        studentSorter = new TableRowSorter<>(studentTableModel);
         studentTable.setRowSorter(studentSorter);
     }
     
@@ -156,7 +161,7 @@ public class GUI extends javax.swing.JFrame {
         classesTable.setAutoCreateRowSorter(true);
         classesTableModel.setRowCount(0);
         loadClassesTable();
-        classesSorter = new TableRowSorter<DefaultTableModel>(classesTableModel);
+        classesSorter = new TableRowSorter<>(classesTableModel);
         classesTable.setRowSorter(classesSorter);
         System.out.println("Initialized classes table");
     }
@@ -167,7 +172,7 @@ public class GUI extends javax.swing.JFrame {
         classStudentTable.setAutoCreateRowSorter(true);
         classStudentModel.setRowCount(0);
         loadClassStudentTable(inClass);
-        classStudentSorter = new TableRowSorter<DefaultTableModel>(classStudentModel);
+        classStudentSorter = new TableRowSorter<>(classStudentModel);
         classStudentTable.setRowSorter(classStudentSorter);
     }
     
@@ -177,7 +182,7 @@ public class GUI extends javax.swing.JFrame {
         classTeacherTable.setAutoCreateRowSorter(true);
         classTeacherModel.setRowCount(0);
         loadClassTeacherTable(inClass);
-        classTeacherSorter = new TableRowSorter<DefaultTableModel>(classTeacherModel);
+        classTeacherSorter = new TableRowSorter<>(classTeacherModel);
         classTeacherTable.setRowSorter(classTeacherSorter);
     }
     
@@ -187,7 +192,7 @@ public class GUI extends javax.swing.JFrame {
         classComputerTable.setAutoCreateRowSorter(true);
         classComputerModel.setRowCount(0);
         loadClassComputerTable(inClass);
-        classComputerSorter = new TableRowSorter<DefaultTableModel>(classComputerModel);
+        classComputerSorter = new TableRowSorter<>(classComputerModel);
         classComputerTable.setRowSorter(classComputerSorter);
     }
     
@@ -224,6 +229,7 @@ public class GUI extends javax.swing.JFrame {
         String studentCount = new Integer(classroom.getNumOfStudents()).toString();
         String teacherCount = new Integer(classroom.getNumOfTeachers()).toString();
         String computerCount = new Integer(classroom.getNumOfComputers()).toString();
+        
         classesTableModel.addRow(new String[]{classroom.getID(), 
             classroom.getName(), studentCount, teacherCount, computerCount});
     }
@@ -558,6 +564,7 @@ public class GUI extends javax.swing.JFrame {
         fileMenu = new javax.swing.JMenu();
         openMenuItem = new javax.swing.JMenuItem();
         separator = new javax.swing.JPopupMenu.Separator();
+        saveMenuItem = new javax.swing.JMenuItem();
         saveAsMenuItem = new javax.swing.JMenuItem();
         editMenu = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -1776,7 +1783,15 @@ public class GUI extends javax.swing.JFrame {
         fileMenu.add(openMenuItem);
         fileMenu.add(separator);
 
-        saveAsMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
+        saveMenuItem.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
+        saveMenuItem.setText("Save");
+        saveMenuItem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveMenuItemActionPerformed(evt);
+            }
+        });
+        fileMenu.add(saveMenuItem);
+
         saveAsMenuItem.setText("Save As...");
         saveAsMenuItem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1843,24 +1858,52 @@ public class GUI extends javax.swing.JFrame {
             removeStudent(getStudentTableSelected());
         }
     }//GEN-LAST:event_removeStudentButtonActionPerformed
-
-    private void saveAsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAsMenuItemActionPerformed
+   
+    private void saveAs()
+    {
+        fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("Reboot Class Record (.reboot)", "reboot"));
+        fileChooser.setFileFilter(fileChooser.getChoosableFileFilters()[1]);
+ 
         int returnVal = fileChooser.showSaveDialog(this);
-        
+
         if(returnVal == fileChooser.APPROVE_OPTION)
         {
             File file = fileChooser.getSelectedFile();
-            persist.save(file.getAbsolutePath());
+            if(file.getName().contains("."))
+            {
+                optionPane.showMessageDialog(null, "Filename cannot contain: . ");
+            }
+            else
+            {
+                persist.save(file.getAbsolutePath() + ".reboot");
+            }
         }
+    }
+    
+    private void saveAsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAsMenuItemActionPerformed
+        saveAs();
     }//GEN-LAST:event_saveAsMenuItemActionPerformed
 
     private void openMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openMenuItemActionPerformed
+        fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("Reboot Class Record (.reboot)", "reboot"));
+        fileChooser.setFileFilter(fileChooser.getChoosableFileFilters()[1]);
+        
         int returnVal = fileChooser.showOpenDialog(this);
         
         if(returnVal == fileChooser.APPROVE_OPTION)
         {
             File file = fileChooser.getSelectedFile();
-            persist.load(file.getAbsolutePath());
+            originFile = file;
+            
+            System.out.println(file.getName());
+            if(file.getName().contains(".reboot"))
+            {
+                persist.load(file.getAbsolutePath());
+            }
+            else
+            {
+                optionPane.showMessageDialog(null, "Invalid file. Only .reboot files allowed");
+            }
         }
         
         initStudentTable();
@@ -2529,15 +2572,23 @@ public class GUI extends javax.swing.JFrame {
            "Are you sure you want to close?", 
            "Exitting Window", optionPane.YES_NO_OPTION) == optionPane.YES_OPTION) { 
 
-              System.out.println("Should Exit: " + WindowConstants.DISPOSE_ON_CLOSE); 
               System.exit(WindowConstants.DISPOSE_ON_CLOSE); 
           } 
           else { 
 
-              System.out.println("Should not Exit: " + WindowConstants.DISPOSE_ON_CLOSE); 
-              return; 
           }
     }//GEN-LAST:event_formWindowClosing
+
+    private void saveMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveMenuItemActionPerformed
+        if(originFile == null)
+        {
+            saveAs();
+        }
+        else
+        {
+            persist.save(originFile.getAbsolutePath());
+        }
+    }//GEN-LAST:event_saveMenuItemActionPerformed
    
     /**
      * @param args the command line arguments
@@ -2685,6 +2736,7 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JButton removeStudentButton;
     private javax.swing.JButton removeTeacherButton;
     private javax.swing.JMenuItem saveAsMenuItem;
+    private javax.swing.JMenuItem saveMenuItem;
     private javax.swing.JPopupMenu.Separator separator;
     private javax.swing.JPanel studentDetailsPanel;
     private javax.swing.JList studentList;

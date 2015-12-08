@@ -32,7 +32,7 @@ import java.util.ArrayList;
 
 public class Persistor 
 {
-    private String filename = "C:\\Users\\Nicholas\\persistorTest.txt";
+    //private String filename = "C:\\Users\\Nicholas\\persistorTest.txt";
     
     private FileWriter fw = null; //init in constructor
     private PrintWriter outFile = null;
@@ -65,7 +65,7 @@ public class Persistor
         ArrayList<Computer> computers = organizer.getComputers();
         try
         {
-            fw = new FileWriter(savLoc, true);
+            fw = new FileWriter(savLoc, false);
             
             outFile = new PrintWriter(fw);
             outFile.println(organizer.serialize());
@@ -88,7 +88,7 @@ public class Persistor
             outFile.close();
         }
         catch(IOException e)
-        {
+         {
             IBIO.output("Error writing file: " + e);
             System.exit(0);
         }
@@ -256,24 +256,6 @@ public class Persistor
                 organizer.addComputer(computer);
                 break;
         }
-    }
-    
-    /**
-     * Changes the file save/load path
-     * @param newPath The new path
-     */
-    public void changePath(String newPath)
-    {
-        filename = newPath;
-    }
-    
-    /**
-     * Returns the file save/load location
-     * @return The save/load file location
-     */
-    public String getPath()
-    {
-        return filename;
     }
     
 }

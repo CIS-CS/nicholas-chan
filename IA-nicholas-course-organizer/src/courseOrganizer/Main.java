@@ -5,8 +5,6 @@
  */
 package courseOrganizer;
 
-import java.awt.Image;
-import javax.imageio.ImageIO;
 
 /**
  *
@@ -16,7 +14,8 @@ public class Main {
     
     public static void main(String args[])
     {
-
-        GUI gui = new GUI();
+        Organizer org = new Organizer();
+        Persistor persist = new Persistor(org);
+        GUI gui = new GUI(org, persist);
     }
 }
