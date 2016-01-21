@@ -6,6 +6,8 @@
 package courseOrganizer;
 import java.awt.Toolkit;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
@@ -46,8 +48,8 @@ public class GUI extends javax.swing.JFrame {
     /**
      * Creates new form GUI, creates an organizer and persistor, and initializes all tables
      * 
-     * @param org The input organizer
-     * @param persist The input persistor
+     * @param org The input organizer.
+     * @param persistor The input persistor.
      */
     public GUI(Organizer org, Persistor persistor) {
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icon.png")));
@@ -1875,7 +1877,15 @@ public class GUI extends javax.swing.JFrame {
             }
             else
             {
-                persist.save(file.getAbsolutePath() + ".reboot");
+                try
+                {
+                    persist.save(file.getAbsolutePath() + ".reboot");
+                }
+                catch(IOException e)
+                {
+                    optionPane.showMessageDialog(null, "Cannot save file: " + e);
+                }
+                
             }
         }
     }
@@ -1898,7 +1908,18 @@ public class GUI extends javax.swing.JFrame {
             System.out.println(file.getName());
             if(file.getName().contains(".reboot"))
             {
-                persist.load(file.getAbsolutePath());
+                try
+                {
+                    persist.load(file.getAbsolutePath());
+                }   
+                catch(FileNotFoundException e)
+                {
+                    optionPane.showMessageDialog(null, e.getMessage());
+                }
+                catch(IOException e)
+                {
+                    optionPane.showMessageDialog(null, "Cannot open file: " + e);
+                }
             }
             else
             {
@@ -1914,17 +1935,27 @@ public class GUI extends javax.swing.JFrame {
 
     private void addStudentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addStudentButtonActionPerformed
         int result = optionPane.showConfirmDialog(null, addStudentDialog, 
-                "Add Student", optionPane.OK_CANCEL_OPTION, optionPane.PLAIN_MESSAGE);
+                "Add Student", optionPane.OK_CANCEL_OPTION, 
+                optionPane.PLAIN_MESSAGE);
         
         if(result == optionPane.OK_OPTION)
         {
             if(addStudentNameField.getText().equals("") ==  false)
             {
-                org.addStudent(addStudentNameField.getText());
+                if(addStudentNameField.getText().matches("[a-zA-Z ]*\\d+.*"))
+                {
+                    optionPane.showMessageDialog(null, 
+                            "Name cannot contain numbers");
+                }
+                else
+                {
+                    org.addStudent(addStudentNameField.getText());
+                } 
             }
             else
             {
-                optionPane.showMessageDialog(null, "Please provide a student name");
+                optionPane.showMessageDialog(null, 
+                        "Please provide a student name");
             }
         }
         initStudentTable();
@@ -1959,7 +1990,15 @@ public class GUI extends javax.swing.JFrame {
         {
             if(addTeacherNameField.getText().equals("") ==  false)
             {
-                org.addTeacher(addTeacherNameField.getText());
+                if(addTeacherNameField.getText().matches("[a-zA-Z ]*\\d+.*"))
+                {
+                    optionPane.showMessageDialog(null, 
+                            "Name cannot contain numbers");
+                }
+                else
+                {
+                    org.addTeacher(addTeacherNameField.getText());
+                } 
             }
             else
             {
@@ -2184,13 +2223,13 @@ public class GUI extends javax.swing.JFrame {
         
         if(result == optionPane.OK_OPTION)
         {
-            if(addClassesNameField.getText().equals("") ==  false)
+            if(addClassesNameField.getText().equals("") ==  false || addClassesNameField.getText().contains(";") == false || addClassesNameField.getText().contains("~") == false)
             {
                 org.addClassroom(addClassesNameField.getText());
             }
             else
             {
-                optionPane.showMessageDialog(null, "Please provide a class name");
+                optionPane.showMessageDialog(null, "Please provide a valid name. Characters ; and ~ cannot be used");
             }
         }
         initClassesTable();
@@ -2586,7 +2625,14 @@ public class GUI extends javax.swing.JFrame {
         }
         else
         {
-            persist.save(originFile.getAbsolutePath());
+            try
+            {
+                persist.save(originFile.getAbsolutePath() + ".reboot");
+            }
+            catch(IOException e)
+            {
+                optionPane.showMessageDialog(null, "Cannot save file: " + e);
+            }         
         }
     }//GEN-LAST:event_saveMenuItemActionPerformed
    

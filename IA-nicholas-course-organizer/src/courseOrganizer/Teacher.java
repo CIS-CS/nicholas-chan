@@ -1,12 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package courseOrganizer;
 
 /**
- * Teacher class
+ * Object model of a teacher
  * @author Nicholas
  */
 public class Teacher extends Person{
@@ -15,7 +10,7 @@ public class Teacher extends Person{
      * @param name Name of teacher
      * @param id ID number of teacher
      */
-    public Teacher(String name, String id)
+    public Teacher(String name, String id) 
     {
         super(name, id);
     }  

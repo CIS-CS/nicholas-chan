@@ -1,13 +1,7 @@
 /*
  * Persistor.java
  * Created on September 16, 2015
- * 
- * Student Structure:
- * class type * name * id * class count * classes... *
- * 
- * Teacher Structure:
- * class type * name * id * class count * classes... * preference count *
- * preferences... 
+
  */
 
 package courseOrganizer;
@@ -19,8 +13,6 @@ import java.io.BufferedReader;
 
 import java.io.IOException;
 import java.io.FileNotFoundException;
-
-import ibio.IBIO; //indicate not mine put in diagram
 
 import java.util.ArrayList;
 
@@ -52,9 +44,10 @@ public class Persistor
     
     /**
      * Saves data into a file
-     * @param savLoc 
+     * @param savLoc Location to save the file.
+     * @throws IOException
      */
-    public void save(String savLoc)
+    public void save(String savLoc) throws IOException
     {
         FileWriter fw = null;
         PrintWriter outFile = null;
@@ -88,17 +81,19 @@ public class Persistor
             outFile.close();
         }
         catch(IOException e)
-         {
-            IBIO.output("Error writing file: " + e);
-            System.exit(0);
+        {
+            throw new IOException("Error Writing to File: " + e);
         }
     }
     
     /**
      * Loads data from save file
      * @param loadLoc Path of file to load 
+     * @throws FileNotFoundException
+     * @throws IOException
      */
-    public void load(String loadLoc)
+    public void load(String loadLoc) throws FileNotFoundException,
+                                            IOException
     {
         organizer.clear();
         Stack classStudentStack = new Stack();
@@ -118,12 +113,10 @@ public class Persistor
             while (record != null)
             {
                 lineData = record.split(";");
-                //System.out.println(lineData);
                 processData(lineData, classStudentStack, classTeacherStack,
-                        classComputerStack); //try catch block/writiup limitations
+                        classComputerStack); 
                 record = inFile.readLine();    // Read the next record until EOF 
             } 
-            //System.out.println(organizer.students.get(0).getName());
             // Close the file
             setClassParameters(classStudentStack, classTeacherStack,
                         classComputerStack);
@@ -132,14 +125,10 @@ public class Persistor
             
         }
         catch (FileNotFoundException e) {
-            // Opening the file may cause this error.
-            IBIO.output("Error opening file for reading: " + e);
-            System.exit(0);            
+            throw new FileNotFoundException("File Not Found: " + e);
         }
         catch (IOException e) {
-            // Reading or closing may cause this error.
-            IBIO.output("Error reading or closing file: " + e);
-            System.exit(0);            
+            throw new IOException("Cannot open file: " + e);
         } 
     }
     
@@ -215,6 +204,7 @@ public class Persistor
             Stack classComputerStack)
     {
         String init = inputData[0];
+        
         switch(init)
         {
             case "o": 

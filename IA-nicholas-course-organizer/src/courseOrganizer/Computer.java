@@ -1,14 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package courseOrganizer;
 
 import java.util.ArrayList;
 
 /**
- *
+ * Object model of a computer with attributes brand, type, model, and condition.
  * @author Nicholas
  */
 public class Computer {

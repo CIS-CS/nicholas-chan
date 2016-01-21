@@ -1,15 +1,10 @@
- /*
- * Person.java
- * Created on September 16, 2015
- */
 package courseOrganizer;
 
 import java.util.ArrayList;
 
 /**
- * Contains details about individuals
+ * Object model of a person
  * @author Nicholas
- * @version 0.0
  */
 public class Person 
 {

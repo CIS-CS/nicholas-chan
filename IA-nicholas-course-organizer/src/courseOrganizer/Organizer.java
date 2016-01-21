@@ -13,10 +13,10 @@ import java.util.ArrayList;
  */
 public class Organizer {
     //Arraylist declarations
-    private ArrayList<Student> students = new ArrayList<Student>();
-    private ArrayList<Teacher> teachers = new ArrayList<Teacher>();
-    private ArrayList<Classroom> classes = new ArrayList<Classroom>();
-    private ArrayList<Computer> computers = new ArrayList<Computer>();
+    private ArrayList<Student> students = new ArrayList<>();
+    private ArrayList<Teacher> teachers = new ArrayList<>();
+    private ArrayList<Classroom> classes = new ArrayList<>();
+    private ArrayList<Computer> computers = new ArrayList<>();
     
     //Field declarations
     private int totalStudents;
@@ -33,10 +33,10 @@ public class Organizer {
     
     public void clear()
     {
-        students = new ArrayList<Student>();
-        teachers = new ArrayList<Teacher>();
-        classes = new ArrayList<Classroom>();
-        computers = new ArrayList<Computer>();
+        students = new ArrayList<>();
+        teachers = new ArrayList<>();
+        classes = new ArrayList<>();
+        computers = new ArrayList<>();
     }
     
     /**
@@ -181,7 +181,9 @@ public class Organizer {
     
     /**
      * Creates a new computer and adds it to the collection of Computers
-     * @param name Name of the new computer
+     * @param brand Brand of the new computer
+     * @param model Model of the new computer
+     * @param condition Condition of the computer. True for working, false for not working.
      */
     public void addComputer(String brand, String model, boolean condition)
     {
@@ -215,7 +217,7 @@ public class Organizer {
     
     /**
      * Creates a new classroom and adds it to the collection of Classrooms
-     * @param name 
+     * @param name Name of the new classroom.
      */
     public void addClassroom(String name)
     {
