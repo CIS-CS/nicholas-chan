@@ -151,7 +151,8 @@ public class Computer {
         {
             con = "n"; 
         }
-        out = out.concat(brand /*1*/ + del + model /*2*/ + del + con /*3*/ + del + id /*4*/ + del);
+        out = out.concat(brand /*1*/ + del + model /*2*/ + del 
+                + con /*3*/ + del + id /*4*/ + del);
         
         if(attendingClasses.size() != 0)
         {

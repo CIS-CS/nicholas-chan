@@ -147,7 +147,8 @@ public class Persistor
             
             if(arrayListData[0].equals("empty") == false)
             {
-                Classroom newClassroom = organizer.getClassroom(originalClassID);
+                Classroom newClassroom = organizer.
+                        getClassroom(originalClassID);
                 for(String id: arrayListData)
                 {
                     Student newStudent = organizer.getStudent(id);
@@ -168,7 +169,8 @@ public class Persistor
             
             if(arrayListData[0].equals("empty") == false)
             {
-                Classroom newClassroom = organizer.getClassroom(originalClassID);
+                Classroom newClassroom = organizer.
+                        getClassroom(originalClassID);
                 for(String id: arrayListData)
                 {
                     Teacher newTeacher = organizer.getTeacher(id);
@@ -189,7 +191,8 @@ public class Persistor
             
             if(arrayListData[0].equals("empty") == false)
             {
-                Classroom newClassroom = organizer.getClassroom(originalClassID);
+                Classroom newClassroom = organizer.
+                        getClassroom(originalClassID);
                 for(String id: arrayListData)
                 {
                     Computer newComputer = organizer.getComputer(id);
@@ -218,7 +221,6 @@ public class Persistor
             case "g":
                 Classroom classroom = new Classroom(inputData[1], inputData[2]);
                 organizer.addClassroom(classroom);
-                //System.out.println(inputData[5]);
                 classStudentStack.push(inputData[2]+";"+inputData[3]);
                 classTeacherStack.push(inputData[2]+";"+inputData[4]);
                 classComputerStack.push(inputData[2]+";"+inputData[5]);
@@ -242,7 +244,8 @@ public class Persistor
                 {
                     condition = false;
                 }
-                Computer computer = new Computer(inputData[1], inputData[4], inputData[2], condition);
+                Computer computer = new Computer(inputData[1], 
+                        inputData[4], inputData[2], condition);
                 organizer.addComputer(computer);
                 break;
         }

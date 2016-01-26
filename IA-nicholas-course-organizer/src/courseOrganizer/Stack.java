@@ -9,16 +9,27 @@ import java.util.ArrayList;
 public class Stack {
     ArrayList<String> stack;
     
+    /**
+     * Constructor for a new stack
+     */
     public Stack()
     {
         stack = new ArrayList<String>();
     }
     
+    /**
+     * Pushes a string onto the stack
+     * @param input String to add
+     */
     public void push(String input)
     {
         stack.add(input);
     }
     
+    /**
+     * If not empty, pops an element from the stack
+     * @return String at top of stack. Null if stack is empty
+     */
     public String pop()
     {
         if(isEmpty() == false)
@@ -33,6 +44,10 @@ public class Stack {
         }
     }
     
+    /**
+     * Checks if stack is empty
+     * @return Returns true if stack is empty
+     */
     public boolean isEmpty()
     {
         boolean condition = false;

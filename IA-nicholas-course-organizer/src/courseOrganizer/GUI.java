@@ -42,19 +42,25 @@ public class GUI extends javax.swing.JFrame {
     TableRowSorter<DefaultTableModel> classStudentSorter;
     TableRowSorter<DefaultTableModel> classTeacherSorter;
     TableRowSorter<DefaultTableModel> classComputerSorter;
+    
+    DataValidate dv;
 
     File originFile = null; 
     
     /**
-     * Creates new form GUI, creates an organizer and persistor, and initializes all tables
+     * Creates new form GUI, creates an organizer and persistor, and 
+     * initializes all tables
      * 
      * @param org The input organizer.
      * @param persistor The input persistor.
      */
     public GUI(Organizer org, Persistor persistor) {
-        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/icon.png")));
+        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass()
+                .getResource("/icon.png")));
         this.org = org;
         this.persist = persistor;
+        
+        dv = new DataValidate();
         
         main(null);
         initComponents();
@@ -62,6 +68,8 @@ public class GUI extends javax.swing.JFrame {
         setVisible(true);
         
         initTables();
+        
+        
     }
 
     private void initTables()
@@ -133,7 +141,8 @@ public class GUI extends javax.swing.JFrame {
         teacherTable.setAutoCreateRowSorter(true);
         teacherTableModel.setRowCount(0);
         loadTeacherTable();
-        teacherSorter = new TableRowSorter<DefaultTableModel>(teacherTableModel);
+        teacherSorter = new TableRowSorter<DefaultTableModel>
+            (teacherTableModel);
         teacherTable.setRowSorter(teacherSorter);
     }
     
@@ -200,12 +209,14 @@ public class GUI extends javax.swing.JFrame {
     
     private void addStudentRow(Student student)
     {
-        studentTableModel.addRow(new String[]{student.getID(), student.getName(), student.getClasses()});
+        studentTableModel.addRow(new String[]{student.getID(), student.getName()
+                , student.getClasses()});
     }
     
     private void addTeacherRow(Teacher teacher)
     {
-        teacherTableModel.addRow(new String[]{teacher.getID(), teacher.getName(), teacher.getClasses()});
+        teacherTableModel.addRow(new String[]{teacher.getID(), teacher.getName()
+                , teacher.getClasses()});
         
     }
     
@@ -223,14 +234,18 @@ public class GUI extends javax.swing.JFrame {
         }
         
         computerTableModel.addRow(new String[]
-        {computer.getID(), computer.getBrand(), computer.getModel(), condition});
+        {computer.getID(), computer.getBrand()
+                , computer.getModel(), condition});
     }
     
     private void addClassesRow(Classroom classroom)
     {
-        String studentCount = new Integer(classroom.getNumOfStudents()).toString();
-        String teacherCount = new Integer(classroom.getNumOfTeachers()).toString();
-        String computerCount = new Integer(classroom.getNumOfComputers()).toString();
+        String studentCount = new Integer(classroom
+                .getNumOfStudents()).toString();
+        String teacherCount = new Integer(classroom
+                .getNumOfTeachers()).toString();
+        String computerCount = new Integer(classroom
+                .getNumOfComputers()).toString();
         
         classesTableModel.addRow(new String[]{classroom.getID(), 
             classroom.getName(), studentCount, teacherCount, computerCount});
@@ -324,7 +339,8 @@ public class GUI extends javax.swing.JFrame {
             String studentID = studentTable.getValueAt(rowNum,0).toString();
             org.removeStudent(studentID);
             studentTableModel.removeRow(rowNum);
-            System.out.println("One student removed, remaining students: " + org.getStudentList());
+            System.out.println("One student removed, remaining students: " + 
+                    org.getStudentList());
         }
     }
     
@@ -335,7 +351,8 @@ public class GUI extends javax.swing.JFrame {
             String teacherID = teacherTable.getValueAt(rowNum,0).toString();
             org.removeTeacher(teacherID);
             teacherTableModel.removeRow(rowNum);
-            System.out.println("One teacher removed, remaining teachers: " + org.getTeacherList());
+            System.out.println("One teacher removed, remaining teachers: " + 
+                    org.getTeacherList());
         }
     }
     
@@ -346,7 +363,8 @@ public class GUI extends javax.swing.JFrame {
             String computerID = computerTable.getValueAt(rowNum,0).toString();
             org.removeComputer(computerID);
             computerTableModel.removeRow(rowNum);
-            System.out.println("One computer removed, remaining computers: " + org.getComputerList());
+            System.out.println("One computer removed, remaining computers: " + 
+                    org.getComputerList());
         }
     }
     
@@ -426,7 +444,38 @@ public class GUI extends javax.swing.JFrame {
             addClassComputerRow(inComputer, inClass);
         }
     }
-    
+
+        private void saveAs()
+    {
+        fileChooser.addChoosableFileFilter(new FileNameExtensionFilter
+                ("Reboot Class Record (.reboot)", "reboot"));
+        fileChooser.setFileFilter(fileChooser.getChoosableFileFilters()[1]);
+ 
+        int returnVal = fileChooser.showSaveDialog(this);
+
+        if(returnVal == fileChooser.APPROVE_OPTION)
+        {
+            File file = fileChooser.getSelectedFile();
+            if(file.getName().contains("."))
+            {
+                optionPane.showMessageDialog
+                        (null, "Filename cannot contain: . ");
+            }
+            else
+            {
+                try
+                {
+                    persist.save(file.getAbsolutePath() + ".reboot");
+                }
+                catch(IOException e)
+                {
+                    optionPane.showMessageDialog(null
+                            , "Cannot save file: " + e);
+                }               
+            }
+        }
+    }
+        
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -1853,49 +1902,22 @@ public class GUI extends javax.swing.JFrame {
     private void removeStudentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeStudentButtonActionPerformed
         if(getStudentTableSelected()== -1)
         {
-            optionPane.showMessageDialog(null, "No student selected, could not remove.");      
+            optionPane.showMessageDialog(null, "No student selected"
+                    + ", could not remove.");      
         }
         else
         {
             removeStudent(getStudentTableSelected());
         }
     }//GEN-LAST:event_removeStudentButtonActionPerformed
-   
-    private void saveAs()
-    {
-        fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("Reboot Class Record (.reboot)", "reboot"));
-        fileChooser.setFileFilter(fileChooser.getChoosableFileFilters()[1]);
- 
-        int returnVal = fileChooser.showSaveDialog(this);
-
-        if(returnVal == fileChooser.APPROVE_OPTION)
-        {
-            File file = fileChooser.getSelectedFile();
-            if(file.getName().contains("."))
-            {
-                optionPane.showMessageDialog(null, "Filename cannot contain: . ");
-            }
-            else
-            {
-                try
-                {
-                    persist.save(file.getAbsolutePath() + ".reboot");
-                }
-                catch(IOException e)
-                {
-                    optionPane.showMessageDialog(null, "Cannot save file: " + e);
-                }
-                
-            }
-        }
-    }
-    
+  
     private void saveAsMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveAsMenuItemActionPerformed
         saveAs();
     }//GEN-LAST:event_saveAsMenuItemActionPerformed
 
     private void openMenuItemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openMenuItemActionPerformed
-        fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("Reboot Class Record (.reboot)", "reboot"));
+        fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("Reboot "
+                + "Class Record (.reboot)", "reboot"));
         fileChooser.setFileFilter(fileChooser.getChoosableFileFilters()[1]);
         
         int returnVal = fileChooser.showOpenDialog(this);
@@ -1906,7 +1928,7 @@ public class GUI extends javax.swing.JFrame {
             originFile = file;
             
             System.out.println(file.getName());
-            if(file.getName().contains(".reboot"))
+            if(dv.validateOpen(file.getName()))
             {
                 try
                 {
@@ -1918,12 +1940,14 @@ public class GUI extends javax.swing.JFrame {
                 }
                 catch(IOException e)
                 {
-                    optionPane.showMessageDialog(null, "Cannot open file: " + e);
+                    optionPane.showMessageDialog(null, 
+                            "Cannot open file: " + e);
                 }
             }
             else
             {
-                optionPane.showMessageDialog(null, "Invalid file. Only .reboot files allowed");
+                optionPane.showMessageDialog(null, "Invalid file. "
+                        + "Only .reboot files allowed");
             }
         }
         
@@ -1942,10 +1966,10 @@ public class GUI extends javax.swing.JFrame {
         {
             if(addStudentNameField.getText().equals("") ==  false)
             {
-                if(addStudentNameField.getText().matches("[a-zA-Z ]*\\d+.*"))
+                if(dv.validatePersonName(addStudentNameField.getText()))
                 {
                     optionPane.showMessageDialog(null, 
-                            "Name cannot contain numbers");
+                            dv.personNameError);
                 }
                 else
                 {
@@ -1963,11 +1987,13 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_addStudentButtonActionPerformed
 
     private void studentSearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_studentSearchButtonActionPerformed
-        studentSorter.setRowFilter(RowFilter.regexFilter(studentSearchField.getText()));
+        studentSorter.setRowFilter(RowFilter.regexFilter(studentSearchField
+                .getText()));
     }//GEN-LAST:event_studentSearchButtonActionPerformed
 
     private void studentSearchFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_studentSearchFieldKeyPressed
-        studentSorter.setRowFilter(RowFilter.regexFilter(studentSearchField.getText()));
+        studentSorter.setRowFilter(RowFilter.regexFilter(studentSearchField
+                .getText()));
     }//GEN-LAST:event_studentSearchFieldKeyPressed
 
     private void teacherTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_teacherTableMouseClicked
@@ -1975,25 +2001,28 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_teacherTableMouseClicked
 
     private void teacherSearchFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_teacherSearchFieldKeyPressed
-        teacherSorter.setRowFilter(RowFilter.regexFilter(teacherSearchField.getText()));
+        teacherSorter.setRowFilter(RowFilter.regexFilter(teacherSearchField
+                .getText()));
     }//GEN-LAST:event_teacherSearchFieldKeyPressed
 
     private void teacherSearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_teacherSearchButtonActionPerformed
-        teacherSorter.setRowFilter(RowFilter.regexFilter(teacherSearchField.getText()));
+        teacherSorter.setRowFilter(RowFilter.regexFilter(teacherSearchField
+                .getText()));
     }//GEN-LAST:event_teacherSearchButtonActionPerformed
 
     private void addTeacherButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addTeacherButtonActionPerformed
         int result = optionPane.showConfirmDialog(null, addTeacherDialog, 
-                "Add Teacher", optionPane.OK_CANCEL_OPTION, optionPane.PLAIN_MESSAGE);
+                "Add Teacher", optionPane.OK_CANCEL_OPTION
+                , optionPane.PLAIN_MESSAGE);
         
         if(result == optionPane.OK_OPTION)
         {
             if(addTeacherNameField.getText().equals("") ==  false)
             {
-                if(addTeacherNameField.getText().matches("[a-zA-Z ]*\\d+.*"))
+                if(dv.validatePersonName(addTeacherNameField.getText()))
                 {
                     optionPane.showMessageDialog(null, 
-                            "Name cannot contain numbers");
+                            dv.personNameError);
                 }
                 else
                 {
@@ -2002,7 +2031,8 @@ public class GUI extends javax.swing.JFrame {
             }
             else
             {
-                optionPane.showMessageDialog(null, "Please provide a teacher name");
+                optionPane.showMessageDialog(null
+                        , "Please provide a teacher name");
             }
         }
         initTeacherTable();
@@ -2012,7 +2042,8 @@ public class GUI extends javax.swing.JFrame {
     private void removeTeacherButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeTeacherButtonActionPerformed
         if(getTeacherTableSelected()== -1)
         {
-            optionPane.showMessageDialog(null, "No teacher selected, could not remove.");
+            optionPane.showMessageDialog(null
+                    , "No teacher selected, could not remove.");
         }
         removeTeacher(getTeacherTableSelected());
     }//GEN-LAST:event_removeTeacherButtonActionPerformed
@@ -2022,21 +2053,26 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_computerTableMouseClicked
 
     private void computerSearchFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_computerSearchFieldKeyPressed
-        computerSorter.setRowFilter(RowFilter.regexFilter(computerSearchField.getText()));
+        computerSorter.setRowFilter(RowFilter.
+                regexFilter(computerSearchField.getText()));
     }//GEN-LAST:event_computerSearchFieldKeyPressed
 
     private void computerSearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_computerSearchButtonActionPerformed
-        computerSorter.setRowFilter(RowFilter.regexFilter(computerSearchField.getText()));
+        computerSorter.setRowFilter(RowFilter.
+                regexFilter(computerSearchField.getText()));
     }//GEN-LAST:event_computerSearchButtonActionPerformed
 
     private void addComputerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addComputerButtonActionPerformed
-        int result = optionPane.showConfirmDialog(null, addComputerDialog, "Add Computer", optionPane.OK_CANCEL_OPTION, optionPane.PLAIN_MESSAGE);
+        int result = optionPane.showConfirmDialog(null, addComputerDialog
+                , "Add Computer", optionPane.OK_CANCEL_OPTION
+                , optionPane.PLAIN_MESSAGE);
         boolean condition = false;
         boolean dataComplete = false;
         
         if(result == optionPane.OK_OPTION)
         {
-            if(addComputerWorkingButton.isSelected()== true || addComputerNotWorkingButton.isSelected()== true)
+            if(addComputerWorkingButton.isSelected()== true || 
+                    addComputerNotWorkingButton.isSelected()== true)
                 {
                     if(addComputerWorkingButton.isSelected())
                     {
@@ -2058,11 +2094,22 @@ public class GUI extends javax.swing.JFrame {
 
             if(dataComplete == true)
             {
-                org.addComputer(addComputerBrandField.getText(), addComputerModelField.getText(), condition);
+                if(dv.validateGeneralName(addComputerBrandField.getText()) 
+                        || dv.validateGeneralName(addComputerModelField
+                                .getText()))
+                {
+                    org.addComputer(addComputerBrandField.getText()
+                            , addComputerModelField.getText(), condition);    
+                }
+                else
+                {
+                    optionPane.showMessageDialog(null, dv.generalNameError);
+                }
             }
             else
             {
-                optionPane.showMessageDialog(null,"Please fill out the form entirely");
+                optionPane.showMessageDialog(
+                        null,"Please fill out the form entirely");
             }
         }
         initComputerTable();
@@ -2074,7 +2121,8 @@ public class GUI extends javax.swing.JFrame {
     private void removeComputerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeComputerButtonActionPerformed
         if(getComputerTableSelected()== -1)
         {
-            optionPane.showMessageDialog(null, "No computer selected, could not remove."); 
+            optionPane.showMessageDialog(null, 
+                    "No computer selected, could not remove."); 
         }
         removeComputer(getComputerTableSelected());
     }//GEN-LAST:event_removeComputerButtonActionPerformed
@@ -2082,23 +2130,37 @@ public class GUI extends javax.swing.JFrame {
     private void editStudentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editStudentButtonActionPerformed
         if(getStudentTableSelected()== -1)
         {
-            optionPane.showMessageDialog(null, "No student selected, could not edit.");
+            optionPane.showMessageDialog(null, 
+                    "No student selected, could not edit.");
         }
         else
         {
-            editStudentOriginalField.setText(studentTable.getValueAt(getStudentTableSelected(), 1).toString());
+            editStudentOriginalField.setText(studentTable.getValueAt(
+                    getStudentTableSelected(), 1).toString());
             int result = optionPane.showConfirmDialog(null, editStudentDialog, 
-                    "Edit Student", optionPane.OK_CANCEL_OPTION, optionPane.PLAIN_MESSAGE);
+                    "Edit Student", optionPane.OK_CANCEL_OPTION, 
+                    optionPane.PLAIN_MESSAGE);
             if(result == optionPane.OK_OPTION)
             {
                 if(editStudentNewField.getText().equals("") == false)
                 {
-                    org.getStudent(studentTable.getValueAt(getStudentTableSelected(),0).toString()).changeName(editStudentNewField.getText());
-                    initStudentTable();
+                    if(dv.validatePersonName(editStudentNewField.
+                            getText()) == false)
+                    {
+                        org.getStudent(studentTable.getValueAt
+                            (getStudentTableSelected(),0).toString()).
+                            changeName(editStudentNewField.getText());
+                        initStudentTable();
+                    }
+                    else
+                    {
+                        optionPane.showMessageDialog(null, dv.personNameError);
+                    }
                 }
                 else
                 {
-                    optionPane.showMessageDialog(null, "Please complete the form");
+                    optionPane.showMessageDialog(null, 
+                            "Please complete the form");
                 }
             }              
         } 
@@ -2110,23 +2172,37 @@ public class GUI extends javax.swing.JFrame {
     private void editTeacherButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editTeacherButtonActionPerformed
         if(getTeacherTableSelected()== -1)
         {
-            optionPane.showMessageDialog(null, "No teacher selected, could not edit.");
+            optionPane.showMessageDialog(null, "No teacher selected, "
+                    + "could not edit.");
         }
         else
         {
-            editTeacherOriginalField.setText(teacherTable.getValueAt(getTeacherTableSelected(), 1).toString());
+            editTeacherOriginalField.setText(teacherTable.getValueAt(
+                    getTeacherTableSelected(), 1).toString());
             int result = optionPane.showConfirmDialog(null, editTeacherDialog, 
-                    "Edit Teacher", optionPane.OK_CANCEL_OPTION, optionPane.PLAIN_MESSAGE);
+                    "Edit Teacher", optionPane.OK_CANCEL_OPTION, 
+                    optionPane.PLAIN_MESSAGE);
             if(result == optionPane.OK_OPTION)
             {
                 if(editTeacherNewField.getText().equals("") == false)
                 {
-                    org.getTeacher(teacherTable.getValueAt(getTeacherTableSelected(),0).toString()).changeName(editTeacherNewField.getText());
-                    initTeacherTable();
+                    if(dv.validatePersonName(
+                            editTeacherNewField.getText()) == false)
+                    {
+                        org.getTeacher(teacherTable.getValueAt
+                            (getTeacherTableSelected(),0).toString())
+                            .changeName(editTeacherNewField.getText());
+                        initTeacherTable();
+                    }
+                    else
+                    {
+                        optionPane.showMessageDialog(null, dv.personNameError);                        
+                    }
                 }
                 else
                 {
-                    optionPane.showMessageDialog(null, "Please complete the form");
+                    optionPane.showMessageDialog(null, 
+                            "Please complete the form");
                 }
             }              
         } 
@@ -2138,14 +2214,17 @@ public class GUI extends javax.swing.JFrame {
     private void editComputerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editComputerButtonActionPerformed
         boolean changeBrand = false;
         boolean changeModel = false;
+        boolean changeCondition = false;
         
         if(getComputerTableSelected()== -1)
         {
-            optionPane.showMessageDialog(null, "No computer selected, could not edit.");
+            optionPane.showMessageDialog(null, 
+                    "No computer selected, could not edit.");
         }
         else
         {
-            Computer editComp = org.getComputer(computerTable.getValueAt(getComputerTableSelected(), 0).toString());
+            Computer editComp = org.getComputer(computerTable.getValueAt(
+                    getComputerTableSelected(), 0).toString());
             
             editCompBrandOriginalField.setText(editComp.getBrand());
             editCompModelOriginalField.setText(editComp.getModel());
@@ -2159,7 +2238,8 @@ public class GUI extends javax.swing.JFrame {
             }
             
             int result = optionPane.showConfirmDialog(null, editComputerDialog, 
-                    "Edit Computer", optionPane.OK_CANCEL_OPTION, optionPane.PLAIN_MESSAGE);
+                    "Edit Computer", optionPane.OK_CANCEL_OPTION,
+                    optionPane.PLAIN_MESSAGE);
         
         
         
@@ -2169,28 +2249,52 @@ public class GUI extends javax.swing.JFrame {
                 
                 if(editCompBrandNewField.getText().equals("") == false)
                 {
-                    editComp.changeBrand(editCompBrandNewField.getText());
+                    if(dv.validateGeneralName(editCompBrandNewField.getText()))
+                    {
+                        editComp.changeBrand(editCompBrandNewField.getText());
+                    }
+                    else
+                    {
+                        optionPane.showMessageDialog(null, dv.generalNameError);
+                    }
                     changeBrand = true;
                 }
                 if(editCompModelNewField.getText().equals("") == false)
                 {
-                    editComp.changeModel(editCompModelNewField.getText());
+                    if(dv.validateGeneralName(editCompModelNewField.getText()))
+                    {
+                        editComp.changeModel(editCompModelNewField.getText());
+                    }
+                    else
+                    {
+                        optionPane.showMessageDialog(null, dv.generalNameError);
+                    }
                     changeModel = true;
                 }
                 
                 if(editCompWorkingButton.isSelected() == true)
                 {
                     editComp.changeCondition(true);
+                    if(editComp.getCondition() == true)
+                    {
+                        changeCondition = true;
+                    }
                 }
                 else
                 {
                     editComp.changeCondition(false);
+                    if(editComp.getCondition() == false)
+                    {
+                        changeCondition = true;
+                    }
                 } 
                 initComputerTable();
                 
-                if(changeBrand == false && changeModel == false)
+                if(changeBrand == false && changeModel == false && 
+                        changeCondition == false)
                 {
-                    optionPane.showMessageDialog(null, "Please complete the form");
+                    optionPane.showMessageDialog(null, 
+                            "Please complete the form");
                 }
             }             
         } 
@@ -2210,26 +2314,36 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_classesTableMouseClicked
 
     private void classesSearchFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_classesSearchFieldKeyPressed
-        classesSorter.setRowFilter(RowFilter.regexFilter(classesSearchField.getText()));
+        classesSorter.setRowFilter(RowFilter.regexFilter(
+                classesSearchField.getText()));
     }//GEN-LAST:event_classesSearchFieldKeyPressed
 
     private void classesSearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_classesSearchButtonActionPerformed
-        classesSorter.setRowFilter(RowFilter.regexFilter(classesSearchField.getText()));
+        classesSorter.setRowFilter(RowFilter.regexFilter(
+                classesSearchField.getText()));
     }//GEN-LAST:event_classesSearchButtonActionPerformed
 
     private void addClassButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addClassButtonActionPerformed
         int result = optionPane.showConfirmDialog(null, addClassesDialog, 
-                "Add Class", optionPane.OK_CANCEL_OPTION, optionPane.PLAIN_MESSAGE);
+                "Add Class", optionPane.OK_CANCEL_OPTION, 
+                optionPane.PLAIN_MESSAGE);
         
         if(result == optionPane.OK_OPTION)
         {
-            if(addClassesNameField.getText().equals("") ==  false || addClassesNameField.getText().contains(";") == false || addClassesNameField.getText().contains("~") == false)
+            if(addClassesNameField.getText().equals("") ==  false)
             {
-                org.addClassroom(addClassesNameField.getText());
+                if(dv.validateGeneralName(addClassesNameField.getText()))
+                {
+                    org.addClassroom(addClassesNameField.getText());
+                }
+                else
+                {
+                    optionPane.showMessageDialog(null, dv.generalNameError);
+                }
             }
             else
             {
-                optionPane.showMessageDialog(null, "Please provide a valid name. Characters ; and ~ cannot be used");
+                optionPane.showMessageDialog(null, "Please fill out the form");
             }
         }
         initClassesTable();
@@ -2239,7 +2353,8 @@ public class GUI extends javax.swing.JFrame {
     private void removeClassButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeClassButtonActionPerformed
         if(getClassesTableSelected()== -1)
         {
-            optionPane.showMessageDialog(null, "No classes selected, could not remove.");      
+            optionPane.showMessageDialog(null,
+                    "No classes selected, could not remove.");      
         }
         else
         {
@@ -2250,23 +2365,36 @@ public class GUI extends javax.swing.JFrame {
     private void editClassButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editClassButtonActionPerformed
         if(getClassesTableSelected()== -1)
         {
-            optionPane.showMessageDialog(null, "No classes selected, could not edit.");
+            optionPane.showMessageDialog(null,
+                    "No classes selected, could not edit.");
         }
         else
         {
-            editClassesOriginalField.setText(classesTable.getValueAt(getClassesTableSelected(), 1).toString());
+            editClassesOriginalField.setText(classesTable.getValueAt(
+                    getClassesTableSelected(), 1).toString());
             int result = optionPane.showConfirmDialog(null, editClassesDialog, 
-                    "Edit Class", optionPane.OK_CANCEL_OPTION, optionPane.PLAIN_MESSAGE);
+                    "Edit Class", optionPane.OK_CANCEL_OPTION, 
+                    optionPane.PLAIN_MESSAGE);
             if(result == optionPane.OK_OPTION)
             {
                 if(editClassesNewField.getText().equals("") == false)
                 {
-                    org.getClassroom(classesTable.getValueAt(getClassesTableSelected(),0).toString()).changeName(editClassesNewField.getText());
-                    initClassesTable();
+                    if(dv.validateGeneralName(editClassesNewField.getText()))
+                    {
+                        org.getClassroom(classesTable.getValueAt(
+                                getClassesTableSelected(),0).toString()).
+                                changeName(editClassesNewField.getText());
+                        initClassesTable();
+                    }
+                    else
+                    {
+                        optionPane.showMessageDialog(null, dv.generalNameError);
+                    } 
                 }
                 else
                 {
-                    optionPane.showMessageDialog(null, "Please complete the form");
+                    optionPane.showMessageDialog(null,
+                            "Please complete the form");
                 }
             }              
         } 
@@ -2278,20 +2406,24 @@ public class GUI extends javax.swing.JFrame {
     private void classEditStudentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_classEditStudentButtonActionPerformed
         if(getClassesTableSelected() == -1)
         {
-            optionPane.showMessageDialog(null, "No classes selected, could not edit.");
+            optionPane.showMessageDialog(null, "No classes selected,"
+                    + " could not edit.");
         }
         else
         {
-            Classroom selectedClass = org.getClassroom(classesTable.getValueAt(getClassesTableSelected(),0).toString());
+            Classroom selectedClass = org.getClassroom(classesTable.
+                    getValueAt(getClassesTableSelected(),0).toString());
             initClassStudentTable(selectedClass);
             optionPane.showConfirmDialog(null, editClassStudent, 
-                "Edit Student List", optionPane.OK_CANCEL_OPTION, optionPane.PLAIN_MESSAGE);   
+                "Edit Student List", optionPane.OK_CANCEL_OPTION, 
+                optionPane.PLAIN_MESSAGE);   
             initClassesTable();
         }    
     }//GEN-LAST:event_classEditStudentButtonActionPerformed
 
     private void EnrollStudentButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EnrollStudentButtonActionPerformed
-        Classroom selectedClass = org.getClassroom(classesTable.getValueAt(getClassesTableSelected(),0).toString());
+        Classroom selectedClass = org.getClassroom(classesTable.getValueAt(
+                getClassesTableSelected(),0).toString());
         int[] selectedRows = getClassStudentTableSelected();
 
         ArrayList<Student> selectedStudents = new ArrayList<Student>();
@@ -2300,7 +2432,8 @@ public class GUI extends javax.swing.JFrame {
         {
             for(int i: selectedRows)
             {
-                selectedStudents.add(org.getStudent(classStudentTable.getValueAt(i, 0).toString()));
+                selectedStudents.add(org.getStudent(classStudentTable.
+                        getValueAt(i, 0).toString()));
             }
             for(Student student: selectedStudents)
             {
@@ -2316,7 +2449,8 @@ public class GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_EnrollStudentButtonActionPerformed
 
     private void EnrollStudentButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EnrollStudentButton1ActionPerformed
-        Classroom selectedClass = org.getClassroom(classesTable.getValueAt(getClassesTableSelected(),0).toString());
+        Classroom selectedClass = org.getClassroom(classesTable.
+                getValueAt(getClassesTableSelected(),0).toString());
         int[] selectedRows = getClassStudentTableSelected();
 
         ArrayList<Student> selectedStudents = new ArrayList<Student>();
@@ -2325,7 +2459,8 @@ public class GUI extends javax.swing.JFrame {
         {
             for(int i: selectedRows)
             {
-                selectedStudents.add(org.getStudent(classStudentTable.getValueAt(i, 0).toString()));
+                selectedStudents.add(org.getStudent(classStudentTable.
+                        getValueAt(i, 0).toString()));
             }
             for(Student student: selectedStudents)
             {
@@ -2336,24 +2471,29 @@ public class GUI extends javax.swing.JFrame {
         }
         else
         {
-            optionPane.showMessageDialog(null, "Please select a student to remove");
+            optionPane.showMessageDialog(null, 
+                    "Please select a student to remove");
         }
     }//GEN-LAST:event_EnrollStudentButton1ActionPerformed
 
     private void classStudentSearchFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_classStudentSearchFieldActionPerformed
-        classStudentSorter.setRowFilter(RowFilter.regexFilter(classStudentSearchField.getText()));
+        classStudentSorter.setRowFilter(RowFilter.regexFilter(
+                classStudentSearchField.getText()));
     }//GEN-LAST:event_classStudentSearchFieldActionPerformed
 
     private void classStudentSearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_classStudentSearchButtonActionPerformed
-        classStudentSorter.setRowFilter(RowFilter.regexFilter(classStudentSearchField.getText()));
+        classStudentSorter.setRowFilter(RowFilter.regexFilter(
+                classStudentSearchField.getText()));
     }//GEN-LAST:event_classStudentSearchButtonActionPerformed
 
     private void classStudentSearchFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_classStudentSearchFieldKeyTyped
-        classStudentSorter.setRowFilter(RowFilter.regexFilter(classStudentSearchField.getText()));
+        classStudentSorter.setRowFilter(RowFilter.regexFilter(
+                classStudentSearchField.getText()));
     }//GEN-LAST:event_classStudentSearchFieldKeyTyped
 
     private void EnrollTeacherButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EnrollTeacherButtonActionPerformed
-        Classroom selectedClass = org.getClassroom(classesTable.getValueAt(getClassesTableSelected(),0).toString());
+        Classroom selectedClass = org.getClassroom(classesTable.
+                getValueAt(getClassesTableSelected(),0).toString());
         int[] selectedRows = getClassTeacherTableSelected();
 
         ArrayList<Teacher> selectedTeachers = new ArrayList<Teacher>();
@@ -2361,7 +2501,8 @@ public class GUI extends javax.swing.JFrame {
         {
             for(int i: selectedRows)
             {
-                selectedTeachers.add(org.getTeacher(classTeacherTable.getValueAt(i, 0).toString()));
+                selectedTeachers.add(org.getTeacher(classTeacherTable.
+                        getValueAt(i, 0).toString()));
             }
             for(Teacher teacher: selectedTeachers)
             {
@@ -2372,13 +2513,15 @@ public class GUI extends javax.swing.JFrame {
         }
         else
         {
-            optionPane.showMessageDialog(null, "Please select a teacher to enroll");
+            optionPane.showMessageDialog(null, 
+                    "Please select a teacher to enroll");
         }
 
     }//GEN-LAST:event_EnrollTeacherButtonActionPerformed
 
     private void RemoveTeacherButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RemoveTeacherButtonActionPerformed
-        Classroom selectedClass = org.getClassroom(classesTable.getValueAt(getClassesTableSelected(),0).toString());
+        Classroom selectedClass = org.getClassroom(classesTable.
+                getValueAt(getClassesTableSelected(),0).toString());
         int[] selectedRows = getClassTeacherTableSelected();
 
         ArrayList<Teacher> selectedTeachers = new ArrayList<Teacher>();
@@ -2386,7 +2529,8 @@ public class GUI extends javax.swing.JFrame {
         {
             for(int i: selectedRows)
             {
-                selectedTeachers.add(org.getTeacher(classTeacherTable.getValueAt(i, 0).toString()));
+                selectedTeachers.add(org.getTeacher(classTeacherTable.
+                        getValueAt(i, 0).toString()));
             }
             for(Teacher teacher: selectedTeachers)
             {
@@ -2397,41 +2541,49 @@ public class GUI extends javax.swing.JFrame {
         }
         else
         {
-            optionPane.showMessageDialog(null, "Please select a teacher to remove");
+            optionPane.showMessageDialog(null, 
+                    "Please select a teacher to remove");
         }
 
     }//GEN-LAST:event_RemoveTeacherButtonActionPerformed
 
     private void classTeacherSearchFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_classTeacherSearchFieldActionPerformed
-        classTeacherSorter.setRowFilter(RowFilter.regexFilter(classTeacherSearchField.getText()));
+        classTeacherSorter.setRowFilter(RowFilter.regexFilter(
+                classTeacherSearchField.getText()));
     }//GEN-LAST:event_classTeacherSearchFieldActionPerformed
 
     private void classTeacherSearchFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_classTeacherSearchFieldKeyTyped
-        classTeacherSorter.setRowFilter(RowFilter.regexFilter(classTeacherSearchField.getText()));
+        classTeacherSorter.setRowFilter(RowFilter.regexFilter(
+                classTeacherSearchField.getText()));
     }//GEN-LAST:event_classTeacherSearchFieldKeyTyped
 
     private void classTeacherSearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_classTeacherSearchButtonActionPerformed
-        classTeacherSorter.setRowFilter(RowFilter.regexFilter(classTeacherSearchField.getText()));
+        classTeacherSorter.setRowFilter(RowFilter.regexFilter(
+                classTeacherSearchField.getText()));
     }//GEN-LAST:event_classTeacherSearchButtonActionPerformed
 
     private void classEditTeacherButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_classEditTeacherButtonActionPerformed
         if(getClassesTableSelected() == -1)
         {
-            optionPane.showMessageDialog(null, "No classes selected, could not edit.");
+            optionPane.showMessageDialog(null, 
+                    "No classes selected, could not edit.");
         }
         else
         {
-            Classroom selectedClass = org.getClassroom(classesTable.getValueAt(getClassesTableSelected(),0).toString());
+            Classroom selectedClass = org.getClassroom(classesTable.getValueAt(
+                    getClassesTableSelected(),0).toString());
             initClassTeacherTable(selectedClass);
             
             optionPane.showConfirmDialog(null, editClassTeacher, 
-                "Edit Teacher List", optionPane.OK_CANCEL_OPTION, optionPane.PLAIN_MESSAGE);      
+                "Edit Teacher List", optionPane.OK_CANCEL_OPTION, 
+                optionPane.PLAIN_MESSAGE);      
             initClassesTable();
         } 
     }//GEN-LAST:event_classEditTeacherButtonActionPerformed
 
     private void EnrollComputerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EnrollComputerButtonActionPerformed
-        Classroom selectedClass = org.getClassroom(classesTable.getValueAt(getClassesTableSelected(),0).toString());
+        Classroom selectedClass = org.getClassroom(classesTable.getValueAt(
+                getClassesTableSelected(),0).toString());
         int[] selectedRows = getClassComputerTableSelected();
 
         ArrayList<Computer> selectedComputers = new ArrayList<Computer>();
@@ -2439,7 +2591,8 @@ public class GUI extends javax.swing.JFrame {
         {
             for(int i: selectedRows)
             {
-                selectedComputers.add(org.getComputer(classComputerTable.getValueAt(i, 0).toString()));
+                selectedComputers.add(org.getComputer(classComputerTable.
+                        getValueAt(i, 0).toString()));
             }
             for(Computer computer: selectedComputers)
             {
@@ -2450,13 +2603,15 @@ public class GUI extends javax.swing.JFrame {
         }
         else
         {
-            optionPane.showMessageDialog(null, "Please select a computer to assign");
+            optionPane.showMessageDialog(null,
+                    "Please select a computer to assign");
         }
          
     }//GEN-LAST:event_EnrollComputerButtonActionPerformed
 
     private void RemoveComputerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RemoveComputerButtonActionPerformed
-        Classroom selectedClass = org.getClassroom(classesTable.getValueAt(getClassesTableSelected(),0).toString());
+        Classroom selectedClass = org.getClassroom(classesTable.getValueAt(
+                getClassesTableSelected(),0).toString());
         int[] selectedRows = getClassComputerTableSelected();
 
         ArrayList<Computer> selectedComputers = new ArrayList<Computer>();
@@ -2464,7 +2619,8 @@ public class GUI extends javax.swing.JFrame {
         {
             for(int i: selectedRows)
             {
-                selectedComputers.add(org.getComputer(classComputerTable.getValueAt(i, 0).toString()));
+                selectedComputers.add(org.getComputer(classComputerTable.
+                        getValueAt(i, 0).toString()));
             }
             for(Computer computer: selectedComputers)
             {
@@ -2475,35 +2631,43 @@ public class GUI extends javax.swing.JFrame {
         }
         else
         {
-            optionPane.showMessageDialog(null, "Please select a student to remove");
+            optionPane.showMessageDialog(null, 
+                    "Please select a student to remove");
         }
          
     }//GEN-LAST:event_RemoveComputerButtonActionPerformed
 
     private void classComputerSearchFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_classComputerSearchFieldActionPerformed
-        classComputerSorter.setRowFilter(RowFilter.regexFilter(classComputerSearchField.getText()));
+        classComputerSorter.setRowFilter(RowFilter.regexFilter(
+                classComputerSearchField.getText()));
     }//GEN-LAST:event_classComputerSearchFieldActionPerformed
 
     private void classComputerSearchFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_classComputerSearchFieldKeyTyped
-        classComputerSorter.setRowFilter(RowFilter.regexFilter(classComputerSearchField.getText()));
+        classComputerSorter.setRowFilter(RowFilter.regexFilter(
+                classComputerSearchField.getText()));
     }//GEN-LAST:event_classComputerSearchFieldKeyTyped
 
     private void classComputerSearchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_classComputerSearchButtonActionPerformed
-        classComputerSorter.setRowFilter(RowFilter.regexFilter(classComputerSearchField.getText()));
+        classComputerSorter.setRowFilter(RowFilter.regexFilter(
+                classComputerSearchField.getText()));
     }//GEN-LAST:event_classComputerSearchButtonActionPerformed
 
     private void classEditComputerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_classEditComputerButtonActionPerformed
         if(getClassesTableSelected() == -1)
         {
-            optionPane.showMessageDialog(null, "No classes selected, could not edit.");
+            optionPane.showMessageDialog(null, 
+                    "No classes selected, could not edit.");
         }
         else
         {
-            Classroom selectedClass = org.getClassroom(classesTable.getValueAt(getClassesTableSelected(),0).toString());
+            Classroom selectedClass = org.getClassroom(
+                    classesTable.getValueAt(getClassesTableSelected(),0).
+                            toString());
             initClassComputerTable(selectedClass);
             
             optionPane.showConfirmDialog(null, editClassComputer, 
-                "Edit Computer List", optionPane.OK_CANCEL_OPTION, optionPane.PLAIN_MESSAGE);   
+                "Edit Computer List", optionPane.OK_CANCEL_OPTION, 
+                optionPane.PLAIN_MESSAGE);   
             initClassesTable();
         } 
     }//GEN-LAST:event_classEditComputerButtonActionPerformed
@@ -2511,14 +2675,17 @@ public class GUI extends javax.swing.JFrame {
     private void viewDetailsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewDetailsButtonActionPerformed
         if(getClassesTableSelected() == -1)
         {
-            optionPane.showMessageDialog(null, "No classes selected, cannot view.");
+            optionPane.showMessageDialog(null, "No classes selected, "
+                    + "cannot view.");
         }
         else
         {
-            Classroom selectedClass = org.getClassroom(classesTable.getValueAt(getClassesTableSelected(),0).toString());
+            Classroom selectedClass = org.getClassroom(classesTable.getValueAt(
+                    getClassesTableSelected(),0).toString());
             ArrayList<Student> selectedStudents = selectedClass.getStudents();
             ArrayList<Teacher> selectedTeachers = selectedClass.getTeachers();
-            ArrayList<Computer> selectedComputers = selectedClass.getComputers();
+            ArrayList<Computer> selectedComputers = 
+                    selectedClass.getComputers();
             
             DefaultListModel studentListModel = new DefaultListModel();
             DefaultListModel teacherListModel = new DefaultListModel();
@@ -2541,19 +2708,23 @@ public class GUI extends javax.swing.JFrame {
             computerList.setModel(computerListModel);
             
             optionPane.showConfirmDialog(null, detailsPanel, 
-                "Class Details: " + selectedClass.getName(), optionPane.OK_CANCEL_OPTION, optionPane.PLAIN_MESSAGE);      
+                "Class Details: " + selectedClass.getName(), 
+                optionPane.OK_CANCEL_OPTION, optionPane.PLAIN_MESSAGE);      
         } 
     }//GEN-LAST:event_viewDetailsButtonActionPerformed
 
     private void viewDetailsButtonStudentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewDetailsButtonStudentActionPerformed
         if(getStudentTableSelected()==-1)
         {
-            optionPane.showMessageDialog(null, "No students selected, cannot view.");
+            optionPane.showMessageDialog(null, 
+                    "No students selected, cannot view.");
         }
         else
         {
-            Student selectedStudent = org.getStudent(studentTable.getValueAt(getStudentTableSelected(),0).toString());
-            ArrayList<Classroom> selectedClasses = selectedStudent.getAttending();
+            Student selectedStudent = org.getStudent(studentTable.
+                    getValueAt(getStudentTableSelected(),0).toString());
+            ArrayList<Classroom> selectedClasses = 
+                    selectedStudent.getAttending();
             DefaultListModel studentDetailsModel = new DefaultListModel();
             for(Classroom inClass: selectedClasses)
             {
@@ -2561,19 +2732,23 @@ public class GUI extends javax.swing.JFrame {
             }
             detailsStudentList.setModel(studentDetailsModel);
             optionPane.showConfirmDialog(null, studentDetailsPanel, 
-                "Student Details: " + selectedStudent.getName(), optionPane.OK_CANCEL_OPTION, optionPane.PLAIN_MESSAGE);
+                "Student Details: " + selectedStudent.getName(), 
+                optionPane.OK_CANCEL_OPTION, optionPane.PLAIN_MESSAGE);
         }
     }//GEN-LAST:event_viewDetailsButtonStudentActionPerformed
 
     private void viewDetailsButtonTeacherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewDetailsButtonTeacherActionPerformed
         if(getTeacherTableSelected()==-1)
         {
-            optionPane.showMessageDialog(null, "No teachers selected, cannot view.");
+            optionPane.showMessageDialog(null,
+                    "No teachers selected, cannot view.");
         }
         else
         {
-            Teacher selectedTeacher = org.getTeacher(teacherTable.getValueAt(getTeacherTableSelected(),0).toString());
-            ArrayList<Classroom> selectedClasses = selectedTeacher.getAttending();
+            Teacher selectedTeacher = org.getTeacher(teacherTable.
+                    getValueAt(getTeacherTableSelected(),0).toString());
+            ArrayList<Classroom> selectedClasses = 
+                    selectedTeacher.getAttending();
             DefaultListModel teacherDetailsModel = new DefaultListModel();
             for(Classroom inClass: selectedClasses)
             {
@@ -2581,7 +2756,8 @@ public class GUI extends javax.swing.JFrame {
             }
             detailsTeacherList.setModel(teacherDetailsModel);
             optionPane.showConfirmDialog(null, teacherDetailsPanel, 
-                "Teacher Details: " + selectedTeacher.getName(), optionPane.OK_CANCEL_OPTION, optionPane.PLAIN_MESSAGE);
+                "Teacher Details: " + selectedTeacher.getName(), 
+                optionPane.OK_CANCEL_OPTION, optionPane.PLAIN_MESSAGE);
         }
     }//GEN-LAST:event_viewDetailsButtonTeacherActionPerformed
 
@@ -2609,7 +2785,8 @@ public class GUI extends javax.swing.JFrame {
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         if ( optionPane.showConfirmDialog(new JFrame(), 
            "Are you sure you want to close?", 
-           "Exitting Window", optionPane.YES_NO_OPTION) == optionPane.YES_OPTION) { 
+           "Exitting Window", optionPane.YES_NO_OPTION) == 
+                optionPane.YES_OPTION) { 
 
               System.exit(WindowConstants.DISPOSE_ON_CLOSE); 
           } 

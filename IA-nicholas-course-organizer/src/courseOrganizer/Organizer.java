@@ -45,7 +45,8 @@ public class Organizer {
      */
     public void addStudent(String name)
     {
-        Student newStudent = new Student(name, "S"+ String.format("%05d",totalStudents));
+        Student newStudent = new Student(name, "S"+ String.format("%05d",
+                totalStudents));
         totalStudents++;
         students.add(newStudent); 
     }
@@ -152,7 +153,8 @@ public class Organizer {
      */
     public void addTeacher(String name)
     {
-        Teacher newTeacher = new Teacher(name, "T" + String.format("%05d",totalTeachers));
+        Teacher newTeacher = new Teacher(name, "T" + String.format("%05d",
+                totalTeachers));
         totalTeachers++;
         teachers.add(newTeacher);
     }
@@ -183,7 +185,8 @@ public class Organizer {
      * Creates a new computer and adds it to the collection of Computers
      * @param brand Brand of the new computer
      * @param model Model of the new computer
-     * @param condition Condition of the computer. True for working, false for not working.
+     * @param condition Condition of the computer. True for working, 
+     * false for not working.
      */
     public void addComputer(String brand, String model, boolean condition)
     {
@@ -221,7 +224,8 @@ public class Organizer {
      */
     public void addClassroom(String name)
     {
-        Classroom newClassroom = new Classroom(name, "G" + String.format("%05d",totalClasses));
+        Classroom newClassroom = new Classroom(name, "G" + String.format
+        ("%05d",totalClasses));
         totalClasses++;
         classes.add(newClassroom); 
     }
@@ -294,7 +298,8 @@ public class Organizer {
         String output = "";
         for(Computer computer: computers)
         {
-            output = output + computer.getBrand() + " " + computer.getModel() + ", ";
+            output = output + computer.getBrand() + " " + 
+                    computer.getModel() + ", ";
         }
         return output;
     }
@@ -364,13 +369,15 @@ public class Organizer {
     
     public int[] getTotals()
     {
-        return new int[] {totalStudents, totalTeachers, totalComputers, totalClasses};
+        return new int[] {totalStudents, totalTeachers, totalComputers, 
+            totalClasses};
     }
     
     /**
      * Changes the total number of students, teachers, classrooms and computers
      * Used at program start
-     * @param totals Array of integers that contain the total number of all fields
+     * @param totals Array of integers that contain the total 
+     * number of all fields
      */
     public void changeTotals(int[] totals)
     {
